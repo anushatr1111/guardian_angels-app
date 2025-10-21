@@ -1,120 +1,227 @@
-# Aura Safe App (Guardian Angel) 🛡️
+🛡️ Aura Safe App (Guardian Angel)
 
-A personal safety mobile application built with Flutter, designed to provide users with quick access to help, location sharing, and smart safety features.
+A personal safety mobile application built with Flutter, designed to provide users with quick access to help, real-time location sharing, and AI-powered smart safety features.
 
----
+✨ Features Overview
+🧭 Core UI & Navigation
 
-## ✨ Current Features (Completed)
+Modern, glassmorphism-inspired UI with smooth transitions.
 
-This app currently includes the following core functionalities:
+Bottom Navigation Bar: Home, SOS, Map, Profile.
 
-* **Core UI & Navigation:**
-    * Modern, intuitive UI with glassmorphism panels and smooth transitions.
-    * Bottom navigation bar (Home, SOS, Map, Profile).
-    * Custom animated alert cards and buttons.
-    * Theming with custom fonts (`google_fonts`).
-* **Authentication:**
-    * Secure user **login and signup** using Firebase Authentication (Email/Password).
-    * Persistent login state (`AuthWrapper`).
-* **Emergency Contacts:**
-    * Ability to **add emergency contacts** from the phone's address book.
-    * Contacts are stored securely per user in **Firestore**.
-    * View and manage saved emergency contacts.
-* **SOS Features:**
-    * Dedicated **SOS screen** displaying emergency contacts.
-    * One-tap **SOS button** (with confirmation) to simulate sending alerts.
-    * **Floating SOS button** on the map screen.
-* **Mapping & Navigation:**
-    * Real-time **live location tracking** displayed on Google Maps.
-    * Custom animated **user location marker**.
-    * Tap-to-route functionality using the **Google Directions API**.
-    * Route displayed as a **polyline** on the map.
-    * Toggle chip to show/hide the route.
-* **Profile & Settings:**
-    * User profile screen displaying name and email.
-    * Ability to **edit display name**.
-    * Basic **settings panel** with toggles for Location Sharing, Theme (placeholder), Notifications (placeholder), and Gemini Features (placeholder), saved using `shared_preferences`.
-* **Help Vault:**
-    * Secure storage for medical/emergency info using `flutter_secure_storage`.
-    * UI with expandable sections (`ExpansionTile`).
-    * Lottie animation feedback on saving.
-    * **Biometric lock** (`local_auth`) to protect access to the vault.
-* **Smart Triggers:**
-    * **Voice-activated SOS** using a keyword ("help me") via `speech_to_text`, with waveform visualization and glowing mic animation.
-    * **Hardware SOS trigger** (detecting rapid volume button presses) leading to a confirmation screen with countdown and haptic feedback.
-* **AI Assistant (Basic Integration):**
-    * **Chat-style UI** for interacting with an AI assistant.
-    * Quick **suggestion cards** ("Fake Call", "Share Location", "Text Friend").
-    * Integration with **Google Gemini API** (via `http`) to provide real responses, using a dynamically selectable model.
-    * Animated message bubbles.
-* **Post-Incident Guide:**
-    * **Step-by-step flow** (Calm -> Contact -> Report -> Recover) with progress indicator (`easy_stepper`).
-    * **Calm UI theme** applied specifically to this screen.
-    * Includes **breathing exercise animation** (`lottie`).
-    * Direct action buttons (Call Emergency, Text Contact).
-* **Reporting:**
-    * **Incident report template** screen.
-    * Auto-fills **timestamp** and **current location**.
-    * Placeholders for user input (details, parties, witnesses).
-    * **PDF export** functionality using `pdf` and `printing`.
-    * **Email export** functionality using `mailer` (requires user setup).
+Custom animated alert cards and action buttons.
 
----
+Theming with Google Fonts and soft gradients.
 
-## 🚀 Future Work (Planned Levels 18-25)
+🔐 Authentication
 
-The following features are planned for future development:
+Secure Firebase Authentication (Email/Password).
 
-* **Level 18: AI Emotion Check-in:** UI for mood input, basic sentiment analysis, and suggesting calming tips.
-* **Level 19: Voice Assistant for Crisis:** Voice-guided UI, speech recognition + Text-to-Speech (TTS), interactive choices during a crisis.
-* **Level 20: Incident Capture Vault:** Securely capture and encrypt incident details (text, voice, photos) behind biometrics/passcode.
-* **Level 21: Auto Incident Summary Generator:** Use AI (like Gemini) to automatically generate a formatted report from captured text/voice input.
-* **Level 22: AI Smart Route Suggestions:** Use AI to suggest the safest route based on various factors, highlighting key safety points (hospitals, police stations).
-* **Level 23: Guided Breathing / Grounding Mode:** Dedicated screen with breathing animations, vibration feedback, and ambient sounds.
-* **Level 24: Positive Affirmation & Reflection Journal:** Add wellness features like affirmation popups and a simple journaling function.
-* **Level 25: Cleanup & Final Testing:** Thorough Quality Assurance (QA) testing, bug fixing, UI polishing, and code cleanup.
+Persistent login state with AuthWrapper.
 
----
+👥 Emergency Contacts
 
-## 📸 Suggested Screenshots
+Add emergency contacts directly from your phonebook.
 
-To showcase the app effectively in your repository, consider adding screenshots of:
+Secure per-user contact storage via Firestore.
 
-1.  **Login/Signup Screen:** Showing the gradient and glass text fields.
-2.  **Home Screen (Dashboard):** Highlighting the action cards and alert card.
-3.  **Map Screen:** Showing the custom marker, a drawn route, and the floating SOS button.
-4.  **SOS Screen:** Displaying the main SOS button and the list of emergency contacts.
-5.  **Profile Screen:** Showing the layout with the avatar, user details, and glass card options.
-6.  **Help Vault (Locked):** The biometric lock screen.
-7.  **Help Vault (Unlocked):** An expanded section showing the input fields.
-8.  **Voice SOS Screen:** Showing the waveform and glowing microphone while listening.
-9.  **Hardware SOS Confirmation Screen:** The red countdown screen.
-10. **AI Assistant Screen:** A sample conversation with suggestion cards visible.
-11. **Post-Incident Guide:** One step showing the calm theme and stepper (e.g., the "Calm" step with the breathing animation).
-12. **Settings Screen:** Showing the various toggle options.
-13. **Report Template Screen:** Showing the pre-filled data and input fields.
-14. **Manage Safe Zones Screen:** Showing the list view (even if populated with test data).
-15. **Add/Edit Safe Zone Screen:** Showing the map with the circle radius editor.
+Manage, view, and update contacts seamlessly.
 
----
+🚨 SOS Features
 
-## 🛠️ Setup (Optional)
+Dedicated SOS screen showing emergency contacts.
 
-To run this project:
+One-tap SOS trigger (with confirmation).
 
-1.  Ensure you have the Flutter SDK installed (Version: `3.xx.x` - *Add your specific version*).
-2.  Configure Firebase for your project (Android/iOS setup, Authentication, Firestore). Place your `firebase_options.dart` file in `lib/`.
-3.  Obtain API keys for Google Maps Platform (Maps SDKs, Directions API) and Google AI (Gemini API). Ensure billing is enabled on your Google Cloud project.
-4.  Create a `.env` file in the project root and add your keys:
-    ```dotenv
-    GEMINI_API_KEY=YOUR_GEMINI_KEY
-    GOOGLE_MAPS_API_KEY=YOUR_MAPS_KEY
-    ```
-5.  Run `flutter pub get`.
-6.  Run `flutter run`.
+Floating SOS button on the Map screen for quick access.
 
-*(Add any other specific setup instructions if necessary)*
+🗺️ Mapping & Navigation
 
----
+Real-time live location tracking with a custom animated marker.
 
-*(You can add sections for Contributing or License if you wish)*
+Tap-to-route navigation using Google Directions API.
+
+Interactive polylines for routes with toggle visibility.
+
+👤 Profile & Settings
+
+Editable Profile Screen displaying user name & email.
+
+Settings with toggles for:
+
+Location Sharing
+
+Dark Mode (placeholder)
+
+Notifications (placeholder)
+
+Gemini AI Features (placeholder)
+
+Preferences saved using shared_preferences.
+
+🧾 Help Vault
+
+Securely store medical and emergency details using flutter_secure_storage.
+
+Expandable UI with ExpansionTile.
+
+Biometric lock (via local_auth) for access protection.
+
+Lottie animations for feedback during save actions.
+
+🎙️ Smart Triggers
+
+Voice-Activated SOS: Keyword “Help Me” triggers an alert.
+
+Waveform visualization and glowing mic animation (speech_to_text).
+
+Hardware Trigger: Rapid volume button presses trigger an SOS confirmation screen with haptic feedback.
+
+🤖 AI Assistant (Gemini Integration)
+
+Chat-style AI assistant with animated message bubbles.
+
+Quick action cards: Fake Call, Share Location, Text Friend.
+
+Gemini API integration for real-time smart responses.
+
+Dynamically selectable model and interactive UI.
+
+🧘 Post-Incident Guide
+
+Guided “Calm → Contact → Report → Recover” steps with progress indicator (easy_stepper).
+
+Includes breathing exercise animation (lottie).
+
+Direct buttons to Call Emergency or Message Contacts.
+
+Soothing theme to aid user calmness after distress.
+
+📄 Reporting Tools
+
+Incident Report Template with:
+
+Auto-filled timestamp and current location
+
+Input fields for details, parties, and witnesses
+
+PDF export using pdf + printing.
+
+Email export via mailer (manual setup required).
+
+🧠 Planned Features (Levels 18–25)
+Level	Feature	Description
+18	AI Emotion Check-in	Sentiment-based mood tracking with calming suggestions.
+19	Voice Assistant for Crisis	Hands-free TTS + speech-recognition for emergency guidance.
+20	Incident Capture Vault	Secure, encrypted vault for text, voice, and photo evidence.
+21	AI Auto Report Generator	Automatically generates detailed incident summaries using Gemini.
+22	AI Smart Route Suggestions	AI-recommended safe routes highlighting hospitals/police stations.
+23	Guided Breathing Mode	Breathing exercises with vibration and ambient sounds.
+24	Positive Affirmations & Journal	Daily self-reflection and mental wellness tools.
+25	Final QA & UI Polishing	Testing, cleanup, and performance optimization.
+📸 App Screenshots
+
+(Add screenshots in the order below for an appealing GitHub presentation.)
+
+Screen	Preview
+Login / Signup	:![Login Screen](https://github.com/anushatr1111/aura-safe-app/blob/main/assets/images/IMG-20251022-WA0001.jpg?raw=true)
+
+Home Dashboard	:![Home Screen](https://github.com/anushatr1111/aura-safe-app/blob/main/assets/images/IMG-20251022-WA0002.jpg?raw=true)
+
+Map & Route	:![Map Screen](https://github.com/anushatr1111/aura-safe-app/blob/main/assets/images/IMG-20251022-WA0003.jpg?raw=true)
+
+SOS Screen	:![SOS Screen](https://github.com/anushatr1111/aura-safe-app/blob/main/assets/images/IMG-20251022-WA0004.jpg?raw=true)
+
+Profile Screen	:![Profile Screen](https://github.com/anushatr1111/aura-safe-app/blob/main/assets/images/IMG-20251022-WA0005.jpg?raw=true)
+
+Help Vault (Locked)	:![Help Vault Locked Screen](https://github.com/anushatr1111/aura-safe-app/blob/main/assets/images/IMG-20251022-WA0006.jpg?raw=true)
+
+Help Vault (Unlocked)	:![Help Vault Unlocked Screen](https://github.com/anushatr1111/aura-safe-app/blob/main/assets/images/IMG-20251022-WA0007.jpg?raw=true)
+
+Voice SOS	:![Voice SOS Screen](https://github.com/anushatr1111/aura-safe-app/blob/main/assets/images/IMG-20251022-WA0008.jpg?raw=true)
+
+Hardware SOS Confirmation	:![Hardware SOS Confirmation Screen](https://github.com/anushatr1111/aura-safe-app/blob/main/assets/images/IMG-20251022-WA0009.jpg?raw=true)
+
+AI Assistant	:![AI Assistant Screen](https://github.com/anushatr1111/aura-safe-app/blob/main/assets/images/IMG-20251022-WA0010.jpg?raw=true)
+
+Post-Incident Guide	:![Post-Incident Guide Screen](https://github.com/anushatr1111/aura-safe-app/blob/main/assets/images/IMG-20251022-WA0011.jpg?raw=true)
+
+Settings	:![Settings Screen](https://github.com/anushatr1111/aura-safe-app/blob/main/assets/images/IMG-20251022-WA0012.jpg?raw=true)
+
+Incident Report Template	:![Report Template Screen](https://github.com/anushatr1111/aura-safe-app/blob/main/assets/images/IMG-20251022-WA0013.jpg?raw=true)
+
+Manage Safe Zones	:![Manage Safe Zones Screen](https://github.com/anushatr1111/aura-safe-app/blob/main/assets/images/IMG-20251022-WA0014.jpg?raw=true)
+
+Add/Edit Safe Zone Screen:![Add/Edit Safe Zone Screen](https://github.com/anushatr1111/aura-safe-app/blob/main/assets/images/IMG-20251022-WA0015.jpg?raw=true) 
+⚙️ Setup & Installation
+
+Follow these steps to run Aura Safe App locally:
+
+Install Flutter SDK
+Ensure Flutter version 3.x.x or higher is installed.
+
+flutter doctor
+
+
+Configure Firebase
+
+Enable Authentication and Firestore in your Firebase console.
+
+Download firebase_options.dart and place it in lib/.
+
+Obtain Required API Keys
+
+Google Maps Platform: Enable Maps SDK and Directions API.
+
+Google AI (Gemini): Create an API key from your Google Cloud console.
+
+Add both keys in a .env file at your project root:
+
+GEMINI_API_KEY=your_gemini_api_key
+GOOGLE_MAPS_API_KEY=your_maps_api_key
+
+
+Install Dependencies
+
+flutter pub get
+
+
+Run the App
+
+flutter run
+
+🧩 Tech Stack
+Category	Technology
+Frontend	Flutter, Dart
+Backend	Firebase (Auth + Firestore)
+APIs	Google Maps, Directions, Gemini AI
+Storage	Flutter Secure Storage, Shared Preferences
+Design	Glassmorphism UI, Lottie Animations
+Security	Biometric Auth, Encrypted Data Storage
+🤝 Contributing
+
+Contributions are welcome!
+To contribute:
+
+Fork the repository
+
+Create a feature branch (feature/your-feature)
+
+Commit your changes
+
+Open a Pull Request
+
+📜 License
+
+This project is licensed under the MIT License — see the LICENSE
+ file for details.
+
+🌟 Acknowledgments
+
+Flutter for a beautiful, cross-platform framework.
+
+Firebase for seamless authentication and cloud storage.
+
+Google Maps & Gemini APIs for powering navigation and AI features.
+
+Everyone committed to building a safer, smarter world. 💙

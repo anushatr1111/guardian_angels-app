@@ -145,7 +145,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                     items: _availableModels.map((String model) {
                       return DropdownMenuItem<String>(
                         value: model,
-                        child: Text(model),
+                        child: Text(model,overflow: TextOverflow.ellipsis,),
                       );
                     }).toList(),
                     onChanged: !_modelsLoaded ? null : (String? newValue) async { // Disable if models didn't load
@@ -168,6 +168,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                     dropdownColor: const Color(0xFF1e1e1e), // Dark dropdown background
                     // Show a message if models couldn't be loaded
                     disabledHint: !_modelsLoaded ? const Text("Could not load models") : null,
+                    isExpanded: true,
                   ),
                 ),
                 const SizedBox(height: 10),

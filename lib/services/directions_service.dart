@@ -2,13 +2,18 @@ import 'dart:convert';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:http/http.dart' as http;
 import 'package:flutter_dotenv/flutter_dotenv.dart';
-// ⚠️ IMPORTANT: Replace this with your actual Google Maps API Key.
-final String? googleApiKey = dotenv.env['GEMINI_API_KEY'];
 
 class DirectionsService {
   /// Fetches route information between two points from the Google Directions API.
   /// Returns an encoded polyline string on success, or null on failure.
   Future<String?> getDirections(LatLng origin, LatLng destination) async {
+    // Get API key from .env file
+    final String? googleApiKey = dotenv.env['GOOGLE_MAPS_API_KEY'];
+    if (googleApiKey == null || googleApiKey.isEmpty) {
+      print('❌ Error: Google Maps API Key is missing in .env file!');
+      return null;
+    }
+
     // Construct the URL for the API request.
     final String url =
         'https://maps.googleapis.com/maps/api/directions/json?origin=${origin.latitude},${origin.longitude}&destination=${destination.latitude},${destination.longitude}&key=$googleApiKey';

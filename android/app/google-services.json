@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "650428267401",
+    "project_id": "aura-safe-app",
+    "storage_bucket": "aura-safe-app.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:650428267401:android:47d1061cb6ff9aae727f58",
+        "android_client_info": {
+          "package_name": "com.example.aura_safe_app"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCHWBzYQQhxhPDl9lQ5b0IKZPzuCXtvEsg"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

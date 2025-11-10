@@ -5,7 +5,9 @@ import 'package:lottie/lottie.dart';
 import 'package:url_launcher/url_launcher.dart'; // For calling/SMS
 import 'package:aura_safe_app/services/emergency_manager.dart'; // For SMS logic
 import 'package:flutter/foundation.dart' show kDebugMode; // For debugging
-import 'package:aura_safe_app/screens/report_template_screen.dart';
+import 'package:aura_safe_app/screens/report_template_screen.dart'; // Import manual report screen
+import 'package:aura_safe_app/screens/ai_report_generator_screen.dart'; // Import AI report screen
+import 'package:aura_safe_app/screens/calm_mode_screen.dart'; // Import Calm Mode screen
 
 // --- Calm Color Palette ---
 const Color calmBackground = Color(0xFFE0F2F7); // Very light cyan/blue
@@ -77,24 +79,39 @@ class _PostIncidentScreenState extends State<PostIncidentScreen> {
             // --- Step Progress Indicator ---
             EasyStepper(
               activeStep: _activeStep,
+              lineStyle: const LineStyle(
+                lineLength: 80, // Corrected: moved inside LineStyle
+                lineThickness: 2,
+              ),
               stepShape: StepShape.circle,
               stepBorderRadius: 15,
-              borderThickness: 2,
               stepRadius: 28,
               finishedStepBackgroundColor: calmProgressDone, // Use calm green
               activeStepBackgroundColor: calmPrimary,     // Use calm teal
-              unreachedStepBackgroundColor: Colors.grey.shade300, // Lighter grey for light theme
+              unreachedStepBackgroundColor: Colors.grey.shade300, // Corrected parameter name
               activeStepIconColor: Colors.white,
               finishedStepIconColor: Colors.white,
               activeStepTextColor: calmText,
               finishedStepTextColor: calmText,
-              unreachedStepTextColor: calmTextLight,
-              padding: const EdgeInsetsDirectional.symmetric(horizontal: 10, vertical: 10),
+              unreachedStepTextColor: calmTextLight, // Corrected parameter name
+              padding: const EdgeInsets.all(10), // Corrected: use padding instead of internalPadding
               steps: [
-                 EasyStep(icon: Icon(LineIcons.heartbeat), title: 'Calm'),
-                 EasyStep(icon: Icon(LineIcons.users), title: 'Contact'),
-                 EasyStep(icon: Icon(LineIcons.fileAlt), title: 'Report'),
-                 EasyStep(icon: Icon(LineIcons.spa), title: 'Recover'), // Spa icon for recovery/wellbeing
+                 EasyStep(
+                   icon: Icon(LineIcons.heart), // Changed: heartPulse doesn't exist
+                   title: 'Calm',
+                 ),
+                 EasyStep(
+                   icon: Icon(LineIcons.userFriends), 
+                   title: 'Contact',
+                 ),
+                 EasyStep(
+                   icon: Icon(LineIcons.fileAlt), 
+                   title: 'Report',
+                 ),
+                 EasyStep(
+                   icon: Icon(LineIcons.spa), 
+                   title: 'Recover',
+                 ),
               ],
               onStepReached: (index) => setState(() => _activeStep = index),
             ),
@@ -197,21 +214,36 @@ class StepCalm extends StatelessWidget {
 }
 
 // --- Step 1: Contact ---
-class StepContact extends StatelessWidget {
-   const StepContact({super.key});
+class StepContact extends StatefulWidget {
+  const StepContact({super.key});
 
-   Future<void> _callEmergency(BuildContext context) async {
+  @override
+  State<StepContact> createState() => _StepContactState();
+}
+
+class _StepContactState extends State<StepContact> {
+  final EmergencyManager _emergencyManager = EmergencyManager(); // Non-const initialization
+
+  Future<void> _callEmergency(BuildContext context) async {
     const String emergencyNumber = '112';
     final Uri launchUri = Uri(scheme: 'tel', path: emergencyNumber);
     try {
       if (await canLaunchUrl(launchUri)) {
         await launchUrl(launchUri);
       } else {
-        ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Could not launch phone dialer.')));
+        if (context.mounted) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(content: Text('Could not launch phone dialer.'))
+          );
+        }
         if (kDebugMode) print('Could not launch $launchUri');
       }
     } catch (e) {
-       ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Error launching dialer: $e')));
+      if (context.mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text('Error launching dialer: $e'))
+        );
+      }
     }
   }
 
@@ -241,8 +273,7 @@ class StepContact extends StatelessWidget {
             subtitle: Text('Sends a pre-filled message with location', style: _calmSubTitleStyle),
             trailing: const Icon(Icons.chevron_right),
             onTap: () async {
-              final emergencyManager = EmergencyManager();
-              await emergencyManager.sendSosMessageToPrimaryContact(context);
+              await _emergencyManager.sendSosMessageToPrimaryContact(context);
             },
           ),
            ListTile(
@@ -269,16 +300,32 @@ class StepReport extends StatelessWidget {
           Text('Document the Incident', style: _calmTitleStyle),
           const SizedBox(height: 10),
           Text(
-            'If you feel comfortable, noting down details can be helpful later.\n\n- Where and when did it happen?\n- Who was involved?\n- What exactly occurred?',
+            'If you feel comfortable, noting down details can be helpful later.',
             style: _calmBodyStyle,
           ),
           const SizedBox(height: 30),
+
+          // --- ADDED: Link to AI Report Generator ---
           ListTile(
+            leading: const Icon(LineIcons.robot, color: calmAccent),
+            title: const Text('Auto-Generate Report with AI'),
+            subtitle: Text('Speak or type what happened', style: _calmSubTitleStyle),
+            trailing: const Icon(Icons.chevron_right),
+            onTap: () {
+              Navigator.push(context, MaterialPageRoute(builder: (context) => const AiReportGeneratorScreen()));
+            },
+          ),
+          const Divider(),
+          // --- END ADDED ---
+
+           ListTile(
             leading: const Icon(LineIcons.fileAlt, color: calmAccent),
-            title: const Text('File an Official Report (Optional)'),
+            title: const Text('File an Official Report (Manual)'),
             subtitle: Text('Consider reporting to authorities if appropriate', style: _calmSubTitleStyle),
             trailing: const Icon(Icons.chevron_right),
-            onTap: () { /* Add link to a reporting website/service or info */ },
+            onTap: () { 
+              Navigator.push(context, MaterialPageRoute(builder: (context) => const ReportTemplateScreen()));
+            },
           ),
            ListTile(
             leading: const Icon(LineIcons.stickyNote, color: calmAccent),
@@ -309,23 +356,35 @@ class StepRecover extends StatelessWidget {
             style: _calmBodyStyle,
           ),
           const SizedBox(height: 30),
+
+           // --- ADDED: Link to Calm Mode ---
            ListTile(
-             leading: const Icon(LineIcons.edit, color: calmAccent), // Changed icon
+            leading: const Icon(LineIcons.heartbeat, color: calmAccent),
+            title: const Text('Guided Breathing Exercise'),
+            subtitle: Text('A quick grounding exercise', style: _calmSubTitleStyle),
+            trailing: const Icon(Icons.chevron_right),
+            onTap: () {
+               Navigator.push(context, MaterialPageRoute(builder: (context) => const CalmModeScreen()));
+            },
+          ),
+          const Divider(),
+          // --- END ADDED ---
+
+           ListTile(
+             leading: const Icon(LineIcons.edit, color: calmAccent), 
              title: const Text('Create Incident Report'),
              subtitle: Text('Document details for your records', style: _calmSubTitleStyle),
              trailing: const Icon(Icons.chevron_right),
              onTap: () {
-                // Ensure report_template_screen.dart is imported
                 Navigator.push(context, MaterialPageRoute(builder: (context) => const ReportTemplateScreen()));
              },
            ),
-           const Divider(), // Added divider
-           ListTile(
-             leading: const Icon(LineIcons.handHoldingHeart, color: calmAccent), // Helping hands icon
-             title: const Text('Find Local Support Groups'),
-             trailing: const Icon(Icons.chevron_right),
-             onTap: () { /* Add link to mental health resources */ },
-           ),
+          ListTile(
+            leading: const Icon(LineIcons.hands, color: calmAccent), // Changed: alternateHandsHelping doesn't exist
+            title: const Text('Find Local Support Groups'),
+            trailing: const Icon(Icons.chevron_right),
+            onTap: () { /* Add link to mental health resources */ },
+          ),
           ListTile(
             leading: const Icon(LineIcons.bookOpen, color: calmAccent), // Book icon
             title: const Text('Self-Care Resources'),

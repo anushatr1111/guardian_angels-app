@@ -125,6 +125,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                     setState(() => _geminiEnabled = newValue);
                   },
                 ),
+                  
                 
                 // AI Model Selection Section
                 const Divider(height: 20),
